@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 import Data from './data';
 import Quote from './quote';
+import { useHistory, useParams } from 'react-router-dom';
 import {
   Navbar,
   Container,
@@ -14,9 +15,10 @@ import {
   Button,
   Carousel,
 } from 'react-bootstrap';
-import { Link, Route, Switch } from 'react-router-dom';
+import { Link, Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import DetailPage from './Detail.js';
 function App() {
+  let { id } = useParams();
   const [service, setService] = useState(Data);
   const [banners, setBanner] = useState(Quote);
   return (
@@ -25,7 +27,9 @@ function App() {
         <Route exact path="/">
           <Navbar bg="light" expand={false}>
             <Container fluid>
-              <Navbar.Brand href="#">IDEA Holdings</Navbar.Brand>
+              <Navbar.Brand>
+                <Link to="/">IDEA Holdings</Link>
+              </Navbar.Brand>
               <Navbar.Toggle aria-controls="offcanvasNavbar" />
               <Navbar.Offcanvas
                 id="offcanvasNavbar"
@@ -34,17 +38,13 @@ function App() {
               >
                 <Offcanvas.Header closeButton>
                   <Offcanvas.Title id="offcanvasNavbarLabel">
-                    Offcanvas
+                    IDEA Holdings
                   </Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
                   <Nav className="justify-content-end flex-grow-1 pe-3">
-                    <Nav.Link>
-                      <Link to="/">Home</Link>
-                    </Nav.Link>
-                    <Nav.Link>
-                      <Link to="/detail">Modern Basic</Link>
-                    </Nav.Link>
+                    <Link to="/">Home</Link>
+                    <Link to="/detail">Modern Basic</Link>
                     <NavDropdown title="Dropdown" id="offcanvasNavbarDropdown">
                       <NavDropdown.Item>Action</NavDropdown.Item>
                       <NavDropdown.Item>Another action</NavDropdown.Item>
@@ -91,6 +91,8 @@ function App() {
             </div>
           </div>
         </Route>
+        {/* detail page */}
+        {/* /detail 페이지 하나로 3개의 상세페이지를 만들고 싶다.(내부요소만바뀌게세팅) */}
         <Route path="/detail">
           <Navbar bg="light" expand={false}>
             <Container fluid>
@@ -105,17 +107,13 @@ function App() {
               >
                 <Offcanvas.Header closeButton>
                   <Offcanvas.Title id="offcanvasNavbarLabel">
-                    Offcanvas
+                    IDEA Holdings
                   </Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
                   <Nav className="justify-content-end flex-grow-1 pe-3">
-                    <Nav.Link>
-                      <Link to="/">Home</Link>
-                    </Nav.Link>
-                    <Nav.Link>
-                      <Link to="/detail">Modern Basic</Link>
-                    </Nav.Link>
+                    <Link to="/">Home</Link>
+                    <Link to="/detail">Modern Basic</Link>
                     <NavDropdown title="Dropdown" id="offcanvasNavbarDropdown">
                       <NavDropdown.Item>Action</NavDropdown.Item>
                       <NavDropdown.Item>Another action</NavDropdown.Item>
@@ -136,13 +134,9 @@ function App() {
               </Navbar.Offcanvas>
             </Container>
           </Navbar>
-          <DetailPage></DetailPage>
-        </Route>
-        <Route path="/:id">
-          <div>나는말야</div>
+          <DetailPage service={service}></DetailPage>
         </Route>
       </Switch>
-      {/* <Route path="/blar" component={Modal}></Route> */}
     </div>
   );
 }
